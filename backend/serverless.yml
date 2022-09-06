@@ -5,6 +5,7 @@ plugins:
   - serverless-webpack
   - serverless-iam-roles-per-function
   - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
   # - serverless-plugin-canary-deployments
 
 package:
@@ -79,7 +80,7 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            schema:
+            schemas:
               application/json: ${file(models/create-todo-model.json)}
           reqValidatorName: RequestBodyValidator
           documentation:
@@ -107,7 +108,7 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            schema:
+            schemas:
               application/json: ${file(models/update-todo-model.json)}
           reqValidatorName: RequestBodyValidator
           documentation:

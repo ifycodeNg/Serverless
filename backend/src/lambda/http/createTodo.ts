@@ -16,9 +16,22 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   logger.info('Processing event: ', event)
 
   const userId = getUserId(event)
-  const newTodo: CreateTodoRequest = JSON.parse(event.body)
+  const body = JSON.parse(event.body)
+  if(body.name == ""){
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({
+        item: 'Error Please Input Name'
+      })
+    }
+  }
+  else{
+    const newTodo: CreateTodoRequest = JSON.parse(event.body)
   const newItem = await createTodo(newTodo, userId)
-
   return {
     statusCode: 201,
     headers: {
@@ -29,6 +42,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
       item: newItem
     })
   }
+  }
+
+ 
 })
 
 
